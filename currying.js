@@ -19,17 +19,23 @@ function curryTwo(func) {
 
 
 let currySum = curry(sum)
-console.log(currySum(1)(2)(3)(4))
+//console.log(currySum(1)(2)(3)(4))
 
 let currySum2 = curryTwo(sum)
-console.log(currySum2(1,2)(3)(4))
+//console.log(currySum2(1,2)(3)(4))
 
 
 function curryX(func) {
     return function curried() {
-        return arguments.length >= func.length ? func.apply(this, arguments) : curried.bind(this, ...arguments);
+        return arguments.length >= func.length ? func(...arguments) : curried.bind(null, ...arguments);
     }
 }
 
-let curr = curryX(sum);
-console.log(curr(1)(2)(3)(4))   
+let foo = (...args) => console.log(args);
+let bar = (...args) => (...args2) => console.log(...[...args, ...args2]);
+
+let curryFn = fn => (inner = (...args) => (args.length >= fn.length) ? fn(...args) : (...args2) => inner(...args, ...args2))
+
+let curr = curryFn(sum);
+
+console.log(curr(1)(2)(3)(4))
