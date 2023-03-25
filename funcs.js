@@ -1,5 +1,8 @@
-function pow (x, n) {
-  return ''
+function power (base, exponent) {
+  if (exponent === 0) {
+    return 1
+  }
+  return base * power(base, exponent - 1)
 }
 
-pow()
+power(2, 3)
